@@ -10,7 +10,7 @@ public class OrdemServico {
     private LocalDate Dataprevisao;
     private LocalDateTime Datafechamento;
     private StatusOS status;
-    private List<OrdemServico> itens;
+    private List<ItemServico> itens;
 
     public OrdemServico(){}
 
@@ -21,7 +21,7 @@ public class OrdemServico {
         this.Dataprevisao = Dataprevisao;
         this.Datafechamento = null;
         this.status = status.PENDENTE;
-        this.itens = new ArrayList<OrdemServico>();
+        this.itens = new ArrayList<>();
     }
 
     public String getCliente() {
@@ -72,11 +72,42 @@ public class OrdemServico {
         this.status = status;
     }
 
-    public List<OrdemServico> getItens() {
+    public List<ItemServico> getItens() {
         return itens;
     }
 
-    public void setItens(List<OrdemServico> itens) {
+    public void setItens(List<ItemServico> itens) {
         this.itens = itens;
+    }
+    public boolean adicionarItem(ItemServico itens) {
+        if(this.status == StatusOS.CONCLUIDO || this.status == StatusOS.CANCELADA) {
+            return false;
+        }
+        this.itens.add(itens);
+        return true;
+    }
+    public boolean iniciarServico(){
+        if(this.status == StatusOS.PENDENTE){
+            this.status = StatusOS.EM_ANDAMENTO;
+            this.Dataabertura = LocalDate.now();
+            return true;
+        }
+        return false;
+    }
+    public boolean finalizarServico(){
+        if(this.status == StatusOS.EM_ANDAMENTO){
+            this.status = StatusOS.CONCLUIDO;
+            this.Datafechamento = LocalDateTime.now();
+            return true;
+        }
+        return false;
+    }
+    public double calcularTotal(){
+        double total = 0;
+
+        for(int i = 0; i < this.itens.size(); i++){
+            total += this.itens.get(i).getValor();
+        }
+        return total;
     }
 }
