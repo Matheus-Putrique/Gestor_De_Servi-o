@@ -14,7 +14,7 @@ public class OrdemServico {
 
     public OrdemServico(){}
 
-    public OrdemServico(String cliente, int id, LocalDate Dataabertura, LocalDate Dataprevisao, LocalDateTime Datafechamento){
+    public OrdemServico(String cliente, int id,LocalDate Dataprevisao){
         this.cliente = cliente;
         this.id = id;
         this.Dataabertura = LocalDate.now();
